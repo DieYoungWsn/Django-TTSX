@@ -26,7 +26,7 @@ SECRET_KEY = 'u186-+9k+tlik!tpm^jdf6-0tie55(zm-fd3xkd&bv20c)81#e'
 # 部署上线时DEBUG 设置为 False
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["188.131.164.75"]
 
 
 # Application definition
@@ -96,7 +96,7 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': 3306,
         'USER': 'root',
-        'PASSWORD': '123456',
+        'PASSWORD': 'Wsnlst11!!',
     }
 }
 

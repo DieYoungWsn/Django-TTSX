@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 
 from sx_store.models import GoodsValue, ArticleCategory
 from sx_user.models import UserModel, UserTicketModel
+from ttsxAdmin.models import AdminUserModel
 from utils.functions import get_ticket
 
 
@@ -18,7 +19,9 @@ def admin_login(request):
 
     if request.method == 'POST':
         username = request.POST.get('username')
+
         password = request.POST.get('password')
+        print("username == %s , password == %s " % (username, password))
         data = {}
         # 验证信息是否填写完整
         if not all([username, password]):
@@ -26,8 +29,10 @@ def admin_login(request):
         # 验证用户是否注册
         if UserModel.objects.filter(username=username).exists():
             user = UserModel.objects.get(username=username)
+            print("password == %s, equal = %s " % (user.password, user.password == password))
             # 验证密码是否正确
             if check_password(password, user.password):
+            # if password == user.password:
                 # 如果密码正确将ticket值保存在cookie中
                 ticket = get_ticket()
                 response = HttpResponseRedirect(reverse('admin:admin_index'))
@@ -41,9 +46,11 @@ def admin_login(request):
                 return response
             else:
                 msg = '用户名或密码错误'
+                print(msg)
                 return render(request, 'user/login.html', {'msg': msg})
         else:
             msg = '用户名不存在,请注册后在登陆'
+            print(msg)
             return render(request, 'user/login.html', {'msg': msg})
 
 
@@ -84,8 +91,8 @@ def admin_product_detail(request):
         g_repertory = request.POST.get('g_repertory')
         kind = request.POST.get('kind')
         gtype_id = ArticleCategory.objects.filter(kind=kind).first().id
-
-        if not all([g_name, g_img, g_num, g_price, g_unit, g_repertory, gtype_id]):
+        print("gtype_id == %s" % gtype_id)
+        if not all([g_name, g_img, g_num, g_price, g_unit, g_repertory]):
             data = {
                 'msg': '商品信息请填写完整'
             }
